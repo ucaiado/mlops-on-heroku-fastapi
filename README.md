@@ -1,4 +1,4 @@
-Deploying a Machine Learning Model on Heroku with FastAPI
+Deploying a Scalable ML Pipeline in Production
 ================
 
 
