@@ -1,0 +1,13 @@
+version: '2'
+services:
+  mlops:
+    image: udacity/mlops_tests_2
+    container_name: mlops_tests
+    user: root
+    mem_limit: 6G
+    mem_reservation: 256M
+    cpus: 2
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+      - "5000:5000"
