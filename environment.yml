@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - python=3.8
+  - jupyterlab=3.0.12
   - seaborn=0.11.1
   - pandas=1.2.3
   - pytest=6.2.2
@@ -14,11 +15,13 @@ dependencies:
   - scikit-learn=0.24.1
   - matplotlib==3.2.2
   - pillow=8.1.2
-  - pydantic
-  - uvicorn
+  - pydantic=1.9.0
+  - uvicorn=0.17.4
   - gunicorn
-  - pylint
-  - autopep8
-  - dataclasses
+  - pylint=2.7.4
+  - autopep8=1.5.6
   - pip:
       - fastapi==0.63.0
+      - dvc==2.9.3
+      - dataclasses==0.6
+      - dvc[s3]

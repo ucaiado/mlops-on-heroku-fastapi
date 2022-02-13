@@ -21,3 +21,19 @@ bash:  ## Open an interactive terminal in Docker container
 	-p mlops \
 	-f docker-compose.yml \
 	run --rm mlops
+
+create-iam:  ## Create an IAM user with the appropriate permissions
+	python scripts/iac.py -i
+
+create-bucket:  ## Create a new bucket in S3 with name specified in scripts/confs/project.cfg
+	python scripts/iac.py -b
+
+setup-dvc:  ## Setup DVC to use the bucket specified in the conf file
+	dvc init -f;
+	python scripts/iac.py -d
+
+dvc-push-data:  ## Push data to dvc remote
+	docker-compose \
+	-p dvc-push-data \
+	-f docker-compose.yml \
+	run --rm dvc-push-data
