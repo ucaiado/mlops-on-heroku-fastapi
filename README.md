@@ -17,7 +17,7 @@ To set up your environment to run the codes in this repository, start by setting
  up Heroku CLI in your machine:
 
 ```bash
-> pip ...
+> conda create -n [envname] "python=3.8" scikit-learn boto3 pandas numpy rich dvc -c conda-forge
 > heroku ....
 ```
 

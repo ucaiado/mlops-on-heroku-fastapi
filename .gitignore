@@ -16,6 +16,9 @@ model/*
 data/*
 .netrc
 
+# AWS
+scripts/confs/project.cfg
+
 # Distribution / packaging
 .Python
 build/
@@ -40,6 +43,7 @@ MANIFEST
 # Stuff
 logs/*.log
 steps/components/get_data/data/*.csv
+.DS_Store
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

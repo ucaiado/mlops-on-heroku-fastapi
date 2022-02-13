@@ -1,0 +1,8 @@
+[core]
+    autostage = true
+['remote "s3remote"']
+    url = s3://data-to-heroku
+['remote "s3model"']
+    url = s3://data-to-heroku/model
+['remote "s3data"']
+    url = s3://data-to-heroku/data
