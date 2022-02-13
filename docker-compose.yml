@@ -39,8 +39,7 @@ services:
       bash -c """
       source activate mlops_exercise
       && cd /root/project
-      && dvc add nd0821-c3-starter-code/starter/data/census.csv
-      && git add nd0821-c3-starter-code/starter/data/census.csv.dvc nd0821-c3-starter-code/starter/data/.gitignore
-      && git commit || echo '...noting to commit ...'
-      && dvc push -r s3data
+      && dvc add starter/data/census.csv
+      && git add starter/data/census.csv.dvc starter/data/.gitignore
+      && git commit && dvc push -r s3data || echo '...noting to commit ...'
       """
