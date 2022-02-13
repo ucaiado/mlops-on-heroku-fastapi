@@ -20,6 +20,7 @@ dependencies:
   - gunicorn
   - pylint=2.7.4
   - autopep8=1.5.6
+  - flake8=3.9.0
   - pip:
       - fastapi==0.63.0
       - dvc==2.9.3

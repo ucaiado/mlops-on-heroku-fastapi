@@ -9,18 +9,18 @@ docker-build:  ## Build the Docker image used in this project
 	docker build . --progress tty -t udacity/mlops_tests_2:latest ;
 	rm .netrc
 
-linter:  ## Lint library files
-	docker-compose \
-	-p mlops \
-	-f docker-compose.yml \
-	run --rm -w /opt mlops \
-	bash scripts/linter-code.sh steps/src/train_random_forest/*.py
-
 bash:  ## Open an interactive terminal in Docker container
 	docker-compose \
 	-p mlops \
 	-f docker-compose.yml \
 	run --rm mlops
+
+lint-with-pylint:  ## Lint library files
+	docker-compose \
+	-p mlops \
+	-f docker-compose.yml \
+	run --rm -w /opt mlops \
+	bash /root/project/scripts/linter-code.sh /root/project/starter/starter/ml/*.py
 
 create-iam:  ## Create an IAM user with the appropriate permissions
 	python scripts/iac.py -i
@@ -37,3 +37,9 @@ dvc-push-data:  ## Push data to dvc remote
 	-p dvc-push-data \
 	-f docker-compose.yml \
 	run --rm dvc-push-data
+
+lint-and-test:   ## Lint library files, repeting tests performed by Github Actions
+	docker-compose \
+	-p lint-and-test \
+	-f docker-compose.yml \
+	run --rm lint-and-test
