@@ -1,3 +1,10 @@
+'''
+Train a model in Census data
+
+Author: ucaiado
+Date: February 13th, 2022
+'''
+
 # Script to train machine learning model.
 
 from sklearn.model_selection import train_test_split

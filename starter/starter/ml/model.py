@@ -1,3 +1,10 @@
+'''
+Implement functions to train a model on Cencus data
+
+Author: ucaiado
+Date: February 13th, 2022
+'''
+
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 

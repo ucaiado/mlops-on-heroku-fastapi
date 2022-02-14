@@ -1,3 +1,10 @@
+'''
+Implement functions ro preprocess data
+
+Author: ucaiado
+Date: February 13th, 2022
+'''
+
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
