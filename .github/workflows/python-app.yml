@@ -35,7 +35,7 @@ jobs:
       uses: iterative/setup-dvc@v1
     - name: Pull data using DVC
       run: |
-        dvc pull
+        dvc pull -r s3remote
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
