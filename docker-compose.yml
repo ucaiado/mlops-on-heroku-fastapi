@@ -59,3 +59,20 @@ services:
       && git add starter/data/census.csv.dvc starter/data/.gitignore
       && git commit && dvc push -r s3data || echo '...noting to commit ...'
       """
+
+  clean-data:
+    <<: *mlops-common
+    profiles:
+      - debug
+    environment:
+      <<: *mlops-common-env
+      CONNECTION_CHECK_MAX_COUNT: "0"
+    command: >
+      bash -c """
+      source activate mlops_exercise
+      && cd /root/project
+      && python scripts/clean_data.py -i starter/data/census.csv -o starter/data/census.cleaned.csv
+      && dvc add starter/data/census.cleaned.csv
+      && git add starter/data/census.cleaned.csv.dvc starter/data/.gitignore
+      && git commit && dvc push -r s3data || echo '...noting to commit ...'
+      """

@@ -38,8 +38,14 @@ dvc-push-data:  ## Push data to dvc remote
 	-f docker-compose.yml \
 	run --rm dvc-push-data
 
-lint-and-test:   ## Lint library files, repeting tests performed by Github Actions
+lint-and-test:  ## Lint library files, repeting tests performed by Github Actions
 	docker-compose \
 	-p lint-and-test \
 	-f docker-compose.yml \
 	run --rm lint-and-test
+
+clean-data:  ## Clean data and include in DVC
+	docker-compose \
+	-p lint-and-test \
+	-f docker-compose.yml \
+	run --rm clean-data
