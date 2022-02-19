@@ -6,6 +6,7 @@ Date: February 13th, 2022
 '''
 
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.ensemble import RandomForestClassifier
 
 
 # Optional: implement hyperparameter tuning.
@@ -19,13 +20,17 @@ def train_model(X_train, y_train):
         Training data.
     y_train : np.array
         Labels.
+
     Returns
     -------
     model
         Trained machine learning model.
     """
 
-    pass
+    clf = RandomForestClassifier()
+    clf.fit(X_train, y_train)
+
+    return clf
 
 
 def compute_model_metrics(y, preds):
@@ -38,6 +43,7 @@ def compute_model_metrics(y, preds):
         Known labels, binarized.
     preds : np.array
         Predicted labels, binarized.
+
     Returns
     -------
     precision : float
@@ -55,13 +61,14 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : python object
         Trained machine learning model.
     X : np.array
         Data used for prediction.
+
     Returns
     -------
     preds : np.array
         Predictions from the model.
     """
-    pass
+    return model.predict(X)

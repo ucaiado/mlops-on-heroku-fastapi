@@ -46,6 +46,12 @@ lint-and-test:  ## Lint library files, repeting tests performed by Github Action
 
 clean-data:  ## Clean data and include in DVC
 	docker-compose \
-	-p lint-and-test \
+	-p clean-data \
 	-f docker-compose.yml \
 	run --rm clean-data
+
+training-model:  ## Training the model on cleaned data
+	docker-compose \
+	-p training-model \
+	-f docker-compose.yml \
+	run --rm training-model

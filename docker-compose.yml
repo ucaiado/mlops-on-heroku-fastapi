@@ -76,3 +76,21 @@ services:
       && git add starter/data/census.cleaned.csv.dvc starter/data/.gitignore
       && git commit && dvc push -r s3data || echo '...noting to commit ...'
       """
+
+  training-model:
+    <<: *mlops-common
+    profiles:
+      - debug
+    environment:
+      <<: *mlops-common-env
+      CONNECTION_CHECK_MAX_COUNT: "0"
+    command: >
+      bash -c """
+      source activate mlops_exercise
+      && cd /root/project/
+      && python starter/starter/traing_model.py
+      && dvc add starter/model/encoder.pkl
+      && dvc add starter/model/model.pkl
+      && git add starter/model/encoder.pkl.dvc starter/model/model.pkl.dvc starter/model/.gitignore
+      && git commit && dvc push -r s3model || echo '...noting to commit ...'
+      """
