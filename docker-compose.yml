@@ -91,6 +91,7 @@ services:
       && python starter/train_model.py
       && dvc add model/encoder.pkl
       && dvc add model/model.pkl
-      && git add model/encoder.pkl.dvc model/model.pkl.dvc model/.gitignore
+      && dvc add model/slice_output.txt
+      && git add model/encoder.pkl.dvc model/model.pkl.dvc model/slice_output.txt model/.gitignore
       && git commit && dvc push -r s3model || echo '...noting to commit ...'
       """
