@@ -27,7 +27,6 @@ data = pd.read_csv(pathlib.Path.cwd() / 'data' / 'census.cleaned.csv')
 train, test = train_test_split(data, test_size=0.20)
 logger.info('... split data')
 
-
 cat_features = [
     "workclass",
     "education",
@@ -79,7 +78,7 @@ precision_train, recall_train, fbeta_train = t_train_rtns
 precision_test, recall_test, fbeta_test = t_test_rtns
 logger.info('... calculate metrics')
 for s_name, (precision ,recall, fbeta) in zip(
-    ["Training", "Test"], [t_train_rtns, t_test_rtns]):
+        ["Training", "Test"], [t_train_rtns, t_test_rtns]):
     logger.info(
         f"=========== On {s_name} data"
         f":\n\tPrecision: {precision:.4f}"
