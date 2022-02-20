@@ -36,6 +36,8 @@ jobs:
     - name: Pull data using DVC
       run: |
         dvc pull -r s3data
+    - name: Pull model using DVC
+      run: |
         dvc pull -r s3model
     - name: Lint with flake8
       run: |
