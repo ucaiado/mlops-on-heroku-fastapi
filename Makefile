@@ -55,3 +55,9 @@ training-model:  ## Training the model on cleaned data
 	-p training-model \
 	-f docker-compose.yml \
 	run --rm training-model
+
+local-api:  ## Launch API locally
+	docker-compose \
+	-p local-api \
+	-f docker-compose.yml \
+	run --service-ports --rm local-api

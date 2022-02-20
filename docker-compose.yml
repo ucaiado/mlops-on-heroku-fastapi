@@ -95,3 +95,20 @@ services:
       && git add model/encoder.pkl.dvc model/model.pkl.dvc model/slice_output.txt model/.gitignore
       && git commit && dvc push -r s3model || echo '...noting to commit ...'
       """
+
+  local-api:
+    <<: *mlops-common
+    profiles:
+      - debug
+    environment:
+      <<: *mlops-common-env
+      CONNECTION_CHECK_MAX_COUNT: "0"
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+    command: >
+      bash -c """
+      source activate mlops_exercise
+      && cd /root/project/starter
+      && uvicorn --reload --host 0.0.0.0 --port 8080 main:app
+      """

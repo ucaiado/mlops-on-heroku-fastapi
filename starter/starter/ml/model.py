@@ -1,5 +1,5 @@
 '''
-Implement functions to train a model on Cencus data
+Implement functions to train a model on Census data
 
 Author: ucaiado
 Date: February 13th, 2022
