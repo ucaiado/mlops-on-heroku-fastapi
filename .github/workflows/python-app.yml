@@ -33,12 +33,12 @@ jobs:
         aws-region: us-west-2
     - name: Configure DVC
       uses: iterative/setup-dvc@v1
-    - name: Pull data using DVC
-      run: |
-        dvc pull -r s3data
     - name: Pull model using DVC
       run: |
         dvc pull -r s3model
+    - name: Pull data using DVC
+      run: |
+        dvc pull -r s3data
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
