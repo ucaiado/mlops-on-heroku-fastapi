@@ -87,10 +87,10 @@ services:
     command: >
       bash -c """
       source activate mlops_exercise
-      && cd /root/project/
-      && python starter/starter/traing_model.py
-      && dvc add starter/model/encoder.pkl
-      && dvc add starter/model/model.pkl
-      && git add starter/model/encoder.pkl.dvc starter/model/model.pkl.dvc starter/model/.gitignore
+      && cd /root/project/starter
+      && python starter/train_model.py
+      && dvc add model/encoder.pkl
+      && dvc add model/model.pkl
+      && git add model/encoder.pkl.dvc model/model.pkl.dvc model/.gitignore
       && git commit && dvc push -r s3model || echo '...noting to commit ...'
       """
