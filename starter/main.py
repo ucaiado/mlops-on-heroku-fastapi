@@ -28,10 +28,10 @@ app = FastAPI()
 # enable Heroku to use DVC
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
-    if os.system("dvc pull -r s3data") != 0:
-        exit("dvc pull from s3data failed")
     if os.system("dvc pull -r s3model") != 0:
         exit("dvc pull from s3model failed")
+    if os.system("dvc pull -r s3data") != 0:
+        exit("dvc pull from s3data failed")
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
