@@ -44,6 +44,7 @@ MANIFEST
 logs/*.log
 steps/components/get_data/data/*.csv
 .DS_Store
+heroku_output.txt
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

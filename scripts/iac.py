@@ -106,15 +106,24 @@ if __name__ == '__main__':
         help='Setup DVC to a bucket in S3'
     )
 
+    parser.add_argument(
+        '-hr',
+        '--heroku',
+        action='store_true',
+        help='Setup AWS in Heroku'
+    )
+
     # check what should do
     args = parser.parse_args()
     b_create_iam = args.iam
     b_create_bucket = args.bucket
     b_create_dvc = args.dvc
+    b_create_heroku = args.heroku
 
     # check the step selected
     s_err = 'Please select one, and only one, option from -h menu'
-    i_test_all = (b_create_iam*1 + b_create_bucket*1 + b_create_dvc*1)
+    i_test_all = (b_create_iam*1 + b_create_bucket*1 + b_create_dvc*1 +
+                  b_create_heroku*1)
     assert i_test_all == 1, s_err
 
     # define global variables
@@ -200,5 +209,27 @@ if __name__ == '__main__':
             # unset remote default so you always have to tell where to push
             subprocess.call(f'dvc remote default -u', shell=True)
             print(f'...setup DVC to {S3_BUCKET_NAME} S3 bucket')
+        except Exception as e:
+            print(e)
+
+
+    elif b_create_heroku:
+        # Set up AWS credentials in Heroku
+        try:
+            # setup aws credentials in heroku
+            s_last_app = open('heroku_output.txt').read()
+            s_last_app = s_last_app.split(' | ')[0]
+            s_last_app = s_last_app.split('//')[1].split('.heroku')[0]
+            s_cmd = f'heroku config:set AWS_ACCESS_KEY_ID={KEY} '
+            s_cmd += f'AWS_SECRET_ACCESS_KEY={SECRET} --app={s_last_app}'
+            subprocess.call(s_cmd, shell=True)
+            print(f'...setup AWS creedentials in your Heroku account')
+
+            # install buildpack in heroku
+            s_cmd = f'heroku buildpacks:add --index 1 heroku-community/apt '
+            s_cmd += f'--app={s_last_app};'
+            subprocess.call(s_cmd, shell=True)
+            print(f'...Install buildpack')
+
         except Exception as e:
             print(e)

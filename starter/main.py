@@ -6,6 +6,7 @@ Date: February 20th, 2022
 '''
 
 # Put the code for your API here
+import os
 import pathlib
 import joblib
 import pandas as pd
@@ -18,6 +19,14 @@ from starter.ml.model import inference
 
 # set up FastAPI app
 app = FastAPI()
+
+
+# enable Heroku to use DVC
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
 # define root path

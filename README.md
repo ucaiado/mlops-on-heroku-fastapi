@@ -18,7 +18,7 @@ To set up your environment to run the codes in this repository, start by setting
 
 ```bash
 > conda create -n [envname] "python=3.8" scikit-learn boto3 pandas numpy rich dvc -c conda-forge
-> heroku ....
+> heroku login
 ```
 
 Then, install Docker in your machine, start the Docker Desktop App and run:
@@ -34,7 +34,7 @@ In a terminal or command window, navigate to the top-level project directory
  following command:
 
 ```bash
-> make ....
+> make
 ```
 
 

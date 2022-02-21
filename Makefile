@@ -67,3 +67,8 @@ sanity-check:  ## Run sanitycheck script
 	-p sanity-check \
 	-f docker-compose.yml \
 	run --service-ports --rm sanity-check
+
+create-heroku-app:  ## Create a heroku app
+# 	heroku create > heroku_output.txt;
+	python scripts/iac.py -hr;
+	@echo "!! look at heroku_output.txt file"
