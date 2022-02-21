@@ -14,7 +14,7 @@ I deployed the model using the FastAPI package, and some API tests were also
 
 ### Install
 To set up your environment to run the codes in this repository, start by setting
- up Heroku CLI in your machine:
+ up the Github CLI, and the Heroku CLI in your machine:
 
 ```bash
 > conda create -n [envname] "python=3.8" scikit-learn boto3 pandas numpy rich dvc -c conda-forge

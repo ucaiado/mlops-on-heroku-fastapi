@@ -107,6 +107,13 @@ if __name__ == '__main__':
     )
 
     parser.add_argument(
+        '-g',
+        '--github',
+        action='store_true',
+        help='Setup AWS creedentials in Github'
+    )
+
+    parser.add_argument(
         '-hr',
         '--heroku',
         action='store_true',
@@ -118,12 +125,13 @@ if __name__ == '__main__':
     b_create_iam = args.iam
     b_create_bucket = args.bucket
     b_create_dvc = args.dvc
+    b_setup_github = args.github
     b_create_heroku = args.heroku
 
     # check the step selected
     s_err = 'Please select one, and only one, option from -h menu'
     i_test_all = (b_create_iam*1 + b_create_bucket*1 + b_create_dvc*1 +
-                  b_create_heroku*1)
+                  b_create_heroku*1 + b_setup_github*1)
     assert i_test_all == 1, s_err
 
     # define global variables
@@ -213,9 +221,23 @@ if __name__ == '__main__':
             print(e)
 
 
+    elif b_setup_github:
+        # Set up AWS credentials to be used by github actions
+        try:
+            s_cmd = f'gh secret set AWS_ACCESS_KEY_ID --body "{KEY}"'
+            subprocess.call(s_cmd, shell=True)
+
+            s_cmd = f'gh secret set AWS_SECRET_ACCESS_KEY --body "{SECRET}"'
+            subprocess.call(s_cmd, shell=True)
+
+        except Exception as e:
+            print(e)
+
+
     elif b_create_heroku:
         # Set up Heroku to deploy a new App
         try:
+
             # setup aws credentials in heroku
             s_last_app = open('heroku_output.txt').read()
             s_last_app = s_last_app.split(' | ')[0]
@@ -225,10 +247,20 @@ if __name__ == '__main__':
             subprocess.call(s_cmd, shell=True)
             print(f'...setup AWS creedentials in your Heroku account')
 
+            # clear prevuous buildpack
+            s_cmd = f'heroku buildpacks:clear --app={s_last_app};'
+            subprocess.call(s_cmd, shell=True)
+
             # install buildpack in heroku
             s_cmd = f'heroku buildpacks:add --index 1 heroku-community/apt '
             s_cmd += f'--app={s_last_app};'
             subprocess.call(s_cmd, shell=True)
+
+            # install python dependencies
+            s_cmd = f'heroku buildpacks:add --index 2 heroku/python '
+            s_cmd += f'--app={s_last_app};'
+            subprocess.call(s_cmd, shell=True)
+
             print(f'...Install buildpack')
 
             # include new remote

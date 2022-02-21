@@ -32,17 +32,14 @@ setup-dvc:  ## Setup DVC to use the bucket specified in the conf file
 	dvc init -f;
 	python scripts/iac.py -d
 
+setup-aws-to-github:  ## Setup AWS credentials to github
+	python scripts/iac.py -g
+
 dvc-push-data:  ## Push data to dvc remote
 	docker-compose \
 	-p dvc-push-data \
 	-f docker-compose.yml \
 	run --rm dvc-push-data
-
-lint-and-test:  ## Lint library files, repeting tests performed by Github Actions
-	docker-compose \
-	-p lint-and-test \
-	-f docker-compose.yml \
-	run --rm lint-and-test
 
 clean-data:  ## Clean data and include in DVC
 	docker-compose \
@@ -55,6 +52,12 @@ training-model:  ## Training the model on cleaned data
 	-p training-model \
 	-f docker-compose.yml \
 	run --rm training-model
+
+lint-and-test:  ## Lint library files, repeting tests performed by Github Actions
+	docker-compose \
+	-p lint-and-test \
+	-f docker-compose.yml \
+	run --rm lint-and-test
 
 local-api:  ## Launch API locally
 	docker-compose \
@@ -75,3 +78,6 @@ create-heroku-app:  ## Create a heroku app
 
 deploy-heroku-app:  ## Deploy the heroku app
 	git push heroku main
+
+get-logs-heroku:  ## Get logs from Heroku application
+	heroku logs --tail

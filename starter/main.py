@@ -13,8 +13,12 @@ import pandas as pd
 from fastapi import FastAPI
 from pydantic import (BaseModel, Field)
 
-from starter.ml.data import process_data
-from starter.ml.model import inference
+try:
+    from starter.ml.data import process_data
+    from starter.ml.model import inference
+except ModuleNotFoundError:
+    from .starter.ml.data import process_data
+    from .starter.ml.model import inference
 
 
 # set up FastAPI app
