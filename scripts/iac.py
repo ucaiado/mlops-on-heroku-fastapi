@@ -214,7 +214,7 @@ if __name__ == '__main__':
 
 
     elif b_create_heroku:
-        # Set up AWS credentials in Heroku
+        # Set up Heroku to deploy a new App
         try:
             # setup aws credentials in heroku
             s_last_app = open('heroku_output.txt').read()
@@ -230,6 +230,11 @@ if __name__ == '__main__':
             s_cmd += f'--app={s_last_app};'
             subprocess.call(s_cmd, shell=True)
             print(f'...Install buildpack')
+
+            # include new remote
+            s_cmd = f'heroku git:remote -a {s_last_app}'
+            subprocess.call(s_cmd, shell=True)
+            print(f'...Include new remote')
 
         except Exception as e:
             print(e)

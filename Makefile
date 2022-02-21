@@ -72,3 +72,6 @@ create-heroku-app:  ## Create a heroku app
 # 	heroku create > heroku_output.txt;
 	python scripts/iac.py -hr;
 	@echo "!! look at heroku_output.txt file"
+
+deploy-heroku-app:  ## Deploy the heroku app
+	git push heroku main
