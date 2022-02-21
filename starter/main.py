@@ -8,26 +8,40 @@ Date: February 20th, 2022
 # Put the code for your API here
 import pathlib
 import joblib
+import pandas as pd
 from fastapi import FastAPI
 from pydantic import (BaseModel, Field)
 
+from starter.ml.data import process_data
+from starter.ml.model import inference
+
+
+# set up FastAPI app
 app = FastAPI()
 
 
-MODEL = joblib.load(pathlib.Path.cwd() / 'starter' / 'model' / 'model.pkl')
-ENCONDER = joblib.load(pathlib.Path.cwd() / 'starter' / 'model' / 'encoder.pkl')
+# define root path
+root_path = pathlib.Path.cwd() / 'starter' / 'model'
+if not root_path.is_dir():
+    root_path = pathlib.Path.cwd() / 'model'
+
+
+# load model
+MODEL = joblib.load(root_path / 'model.pkl')
+ENCONDER = joblib.load(root_path / 'encoder.pkl')
 CAT_FEATURES = [
     "workclass",
     "education",
-    "marital-status",
+    "marital_status",
     "occupation",
     "relationship",
     "race",
     "sex",
-    "native-country",
+    "native_country",
 ]
 
 
+# define data structure
 class Features(BaseModel):
     age: int
     workclass: str
@@ -45,6 +59,7 @@ class Features(BaseModel):
     native_country: str = Field(alias='native-country')
 
 
+# define endpoints
 @app.get("/")
 async def get_root():
     '''
@@ -59,5 +74,15 @@ async def post_infer_income_level(features: Features):
     '''
     POST that does model inference using the features passed
     '''
-    import pdb; pdb.set_trace()
-    return {}
+    df_this_data = pd.DataFrame(features).set_index(0).T
+
+    x_data, _, _, _ = process_data(
+        df_this_data,
+        categorical_features=CAT_FEATURES,
+        training=False,
+        encoder=ENCONDER,
+    )
+
+    na_inference = inference(MODEL, x_data)
+
+    return {"is_above_50k": int(na_inference[0])}

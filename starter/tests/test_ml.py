@@ -35,14 +35,14 @@ def test_model_type(model_data):
     assert isinstance(this_model, RandomForestClassifier)
 
 
-def test_predict_function(model_data):
+def test_model_predict_function(model_data):
     this_model, x_train, y_train = model_data
     y_pred = inference(this_model, x_train)
 
     assert sum(abs((y_train - y_pred.reshape(-1, 1))))[0] < 1e-6
 
 
-def test_computes_performance_on_model_slices(model_data):
+def test_model_computes_performance_on_model_slices(model_data):
     this_model, x_train, y_train = model_data
     data = pd.DataFrame(x_train, columns=['A', 'B'])
 
@@ -69,7 +69,7 @@ def test_computes_performance_on_model_slices(model_data):
     assert abs((df_output['recall'] == 1).sum() - 2) < 1e-6
 
 
-def test_metrics_output():
+def test_model_metrics_output():
     t_out = compute_model_metrics(
         np.array([1.0, 1.0]),
         np.array([1.0, 1.0])
