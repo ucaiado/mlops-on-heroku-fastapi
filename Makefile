@@ -61,3 +61,9 @@ local-api:  ## Launch API locally
 	-p local-api \
 	-f docker-compose.yml \
 	run --service-ports --rm local-api
+
+sanity-check:  ## Run sanitycheck script
+	docker-compose \
+	-p sanity-check \
+	-f docker-compose.yml \
+	run --service-ports --rm sanity-check
