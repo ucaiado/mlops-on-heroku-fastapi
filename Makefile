@@ -79,5 +79,8 @@ create-heroku-app:  ## Create a heroku app
 deploy-heroku-app:  ## Deploy the heroku app
 	git push heroku main
 
+open-heroku-app:  ## Open the app in the browser
+	heroku open
+
 get-logs-heroku:  ## Get logs from Heroku application
 	heroku logs --tail
