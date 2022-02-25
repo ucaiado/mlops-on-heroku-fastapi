@@ -84,3 +84,6 @@ open-heroku-app:  ## Open the app in the browser
 
 get-logs-heroku:  ## Get logs from Heroku application
 	heroku logs --tail
+
+live-post:  ## post to the live API
+	@python scripts/api_request.py

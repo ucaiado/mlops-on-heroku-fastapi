@@ -4,9 +4,9 @@
 'Infrastructure as Code'
 
 
-@author: udacity, ucaiado
+@author: ucaiado
 
-Created on 07/07/2020
+Created on 02/14/2022
 """
 
 # import libraries
@@ -21,52 +21,12 @@ import configparser
 import subprocess
 import pathlib
 import pandas as pd
-from rich.console import Console
-from rich.table import Column, Table
-from rich.progress import track
 
 
 '''
 Begin help functions and variables
 '''
 
-
-def prettyEMRProps(props):
-    l_data = [('Id', props['Id']),
-              ('Name', props['Name']),
-              ('State', props['Status']['State'])]
-
-    console = Console()
-
-    table = Table(show_header=True, header_style="bold magenta")
-    table.add_column("Key", style="dim", width=12)
-    table.add_column("Value", justify="right")
-    for row in l_data:
-        table.add_row(
-            *row
-        )
-
-    console.print(table)
-
-
-def upload_files(s3, bucket_name, l_filepaths):
-    # source: https://go.aws/3dvMlLb
-    try:
-        response = s3.list_buckets()
-        l_buckets = [bucket['Name'] for bucket in response['Buckets']]
-        if bucket_name not in l_buckets:
-            d_bucket_conf = {'LocationConstraint': 'us-west-2'}
-            s3.create_bucket(
-                Bucket=bucket_name,
-                CreateBucketConfiguration=d_bucket_conf)
-            print(f'...create a new bucket with the name {bucket_name}')
-        for s_filepath in track(l_filepaths):
-            s_fname = s_filepath.split('/')[-1]
-            s3.upload_file(s_filepath, bucket_name, s_fname)
-    except Exception as e:
-        print(e)
-        return False
-    return True
 
 
 '''
