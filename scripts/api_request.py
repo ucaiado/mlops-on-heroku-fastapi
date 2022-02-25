@@ -32,14 +32,17 @@ if __name__ == '__main__':
 
     # check if the file with heroku app address has been created
     path_file = pathlib.Path.cwd() / 'heroku_output.txt'
-    s_err = 'All steps in the Makefile should be performed before running the'
-    s_err += ' tests'
-    assert path_file.is_file(), s_err
-
-    # recover heroku app address
-    s_last_app = open(path_file).read()
-    s_last_app = s_last_app.split(' | ')[0]
-    s_last_app = s_last_app.split('//')[1].split('.heroku')[0]
+    s_err = '!! All steps in the Makefile should be performed before running'
+    s_err += ' the tests. Using a default address for now.'
+    if path_file.is_file():
+        # NOTE: it will be descontinued
+        print(s_err)
+        s_last_app = 'glacial-dawn-66809'
+    else:
+        # recover heroku app address
+        s_last_app = open(path_file).read()
+        s_last_app = s_last_app.split(' | ')[0]
+        s_last_app = s_last_app.split('//')[1].split('.heroku')[0]
 
     heroku_url = f"https://{s_last_app}.herokuapp.com/infer_income"
 

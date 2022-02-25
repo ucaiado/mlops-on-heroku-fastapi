@@ -34,7 +34,7 @@ In a terminal or command window, navigate to the top-level project directory
  following command:
 
 ```bash
-> make
+> make live-post
 ```
 
 
