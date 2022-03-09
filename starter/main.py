@@ -9,8 +9,9 @@ Date: February 20th, 2022
 import os
 import pathlib
 import joblib
+import yaml
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 from pydantic import (BaseModel, Field)
 
 try:
@@ -42,6 +43,7 @@ if not root_path.is_dir():
 
 
 # load model
+FLD = yaml.safe_load(open(pathlib.Path.cwd() / 'api_fields.yml', 'rb'))
 MODEL = joblib.load(root_path / 'model.pkl')
 ENCONDER = joblib.load(root_path / 'encoder.pkl')
 CAT_FEATURES = [
@@ -58,20 +60,20 @@ CAT_FEATURES = [
 
 # define data structure
 class Features(BaseModel):
-    age: int
-    workclass: str
-    fnlgt: int
-    education: str
-    education_num: int = Field(alias='education-num')
-    marital_status: str = Field(alias='marital-status')
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int = Field(alias='capital-gain')
-    capital_loss: int = Field(alias='capital-loss')
-    hours_per_week: int = Field(alias='hours-per-week')
-    native_country: str = Field(alias='native-country')
+    age: int = Field(**FLD['age'])
+    workclass: str = Field(**FLD['workclass'])
+    fnlgt: int = Field(**FLD['fnlwgt'])
+    education: str = Field(**FLD['education'])
+    education_num: int = Field(**FLD['education_num'], alias='education-num')
+    marital_status: str = Field(**FLD['marital_status'])
+    occupation: str = Field(**FLD['occupation'])
+    relationship: str = Field(**FLD['relationship'])
+    race: str = Field(**FLD['race'])
+    sex: str = Field(**FLD['sex'])
+    capital_gain: int = Field(**FLD['capital_gain'], alias='capital-gain')
+    capital_loss: int = Field(**FLD['capital_loss'], alias='capital-loss')
+    hours_per_week: int = Field(**FLD['hours_per_week'], alias='hours-per-week')
+    native_country: str = Field(**FLD['native_country'], alias='native-country')
 
 
 # define endpoints
@@ -87,7 +89,8 @@ async def get_root():
 @app.post("/infer_income")
 async def post_infer_income_level(features: Features):
     '''
-    POST that does model inference using the features passed
+    POST that does model inference using the features passed. The prediction
+    try to determine whether a person makes over 50K a year.
     '''
     df_this_data = pd.DataFrame(features).set_index(0).T
 
