@@ -11,7 +11,7 @@ import pathlib
 import joblib
 import yaml
 import pandas as pd
-from fastapi import Body, FastAPI
+from fastapi import FastAPI
 from pydantic import (BaseModel, Field)
 
 try:
@@ -36,14 +36,17 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
-# define root path
+# define paths
 root_path = pathlib.Path.cwd() / 'starter' / 'model'
 if not root_path.is_dir():
     root_path = pathlib.Path.cwd() / 'model'
 
+root_conf = root_path / 'api_fields.yml'
+if not root_path.is_file():
+    root_conf = pathlib.Path.cwd() / 'starter' / 'api_fields.yml'
 
 # load model
-FLD = yaml.safe_load(open(pathlib.Path.cwd() / 'api_fields.yml', 'rb'))
+FLD = yaml.safe_load(open(root_conf, 'rb'))
 MODEL = joblib.load(root_path / 'model.pkl')
 ENCONDER = joblib.load(root_path / 'encoder.pkl')
 CAT_FEATURES = [
@@ -65,7 +68,7 @@ class Features(BaseModel):
     fnlgt: int = Field(**FLD['fnlwgt'])
     education: str = Field(**FLD['education'])
     education_num: int = Field(**FLD['education_num'], alias='education-num')
-    marital_status: str = Field(**FLD['marital_status'])
+    marital_status: str = Field(**FLD['marital_status'], alias='marital-status')
     occupation: str = Field(**FLD['occupation'])
     relationship: str = Field(**FLD['relationship'])
     race: str = Field(**FLD['race'])
